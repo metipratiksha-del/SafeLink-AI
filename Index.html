@@ -1,0 +1,307 @@
+<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SafeLink AI</title>
+
+<link rel="stylesheet" href="{{ static/style.css }}">
+</head> <body>
+<div class="container">
+
+    <header>
+
+        <div class="logo">
+
+            <div class="logo-icon">
+                🛡️
+            </div>
+
+            <div>
+                <h1>SafeLink AI</h1>
+                <p>Detect • Verify • Connect</p>
+            </div>
+
+        </div>
+
+        <div class="status">
+            <span class="status-dot"></span>
+            SYSTEM ONLINE
+        </div>
+
+    </header>
+
+
+    <section class="hero">
+
+        <h2>
+            AI-Powered
+            <span>Emergency Response</span>
+        </h2>
+
+        <p>
+            Detect unusual sensor patterns, verify the person's safety,
+            and automatically connect emergencies with community responders.
+        </p>
+
+    </section>
+
+
+    <!-- SENSOR ANALYSIS -->
+
+    <section class="card">
+
+        <div class="card-header">
+
+            <div>
+                <h2>🧠 AI Sensor Analysis</h2>
+                <p>Simulated emergency sensor data</p>
+            </div>
+
+        </div>
+
+
+        <div class="sensor-grid">
+
+
+            <div class="sensor">
+
+                <div class="sensor-top">
+
+                    <div class="sensor-name">
+                        IMPACT
+                    </div>
+
+                    <div class="sensor-number">
+                        <span id="impactValue">0</span>
+                    </div>
+
+                </div>
+
+                <input
+                    type="range"
+                    id="impact"
+                    min="0"
+                    max="10"
+                    value="0">
+
+                <p class="sensor-help">
+                    Detects sudden physical impact
+                </p>
+
+            </div>
+
+
+            <div class="sensor">
+
+                <div class="sensor-top">
+
+                    <div class="sensor-name">
+                        ROTATION
+                    </div>
+
+                    <div class="sensor-number">
+                        <span id="rotationValue">0</span>
+                    </div>
+
+                </div>
+
+                <input
+                    type="range"
+                    id="rotation"
+                    min="0"
+                    max="10"
+                    value="0">
+
+                <p class="sensor-help">
+                    Detects abnormal rotation
+                </p>
+
+            </div>
+
+
+            <div class="sensor">
+
+                <div class="sensor-top">
+
+                    <div class="sensor-name">
+                        MOVEMENT
+                    </div>
+
+                    <div class="sensor-number">
+                        <span id="movementValue">0</span>
+                    </div>
+
+                </div>
+
+                <input
+                    type="range"
+                    id="movement"
+                    min="0"
+                    max="10"
+                    value="0">
+
+                <p class="sensor-help">
+                    Detects unusual movement
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="check-row">
+
+            <input
+                type="checkbox"
+                id="suddenStop">
+
+            <label for="suddenStop">
+                🚨 Sudden stop detected
+            </label>
+
+        </div>
+
+
+        <button
+            class="analyze-button"
+            onclick="analyzeSensors()">
+
+            🧠 ANALYZE WITH AI
+            <button id="liveButton" class="analyze-button" onclick="startLiveMonitoring()">
+
+▶ START LIVE MONITORING
+</button>
+
+        </button>
+
+
+        <div id="result"></div>
+
+    </section>
+
+
+    <!-- COMMUNITY DASHBOARD -->
+
+    <section class="card">
+
+        <div class="card-header">
+
+            <div>
+                <h2>🚑 Community Response Dashboard</h2>
+                <p>Real-time emergency status</p>
+            </div>
+
+        </div>
+
+
+        <div class="dashboard-grid">
+
+
+            <div class="dashboard-item">
+
+                <small>INCIDENT STATUS</small>
+
+                <strong id="incidentStatus">
+                    🟢 No Active Incident
+                </strong>
+
+            </div>
+
+
+            <div class="dashboard-item">
+
+                <small>DETECTION METHOD</small>
+
+                <strong id="incidentDetection">
+                    Waiting...
+                </strong>
+
+            </div>
+
+
+            <div class="dashboard-item">
+
+                <small>PRIORITY</small>
+
+                <strong id="incidentPriority">
+                    —
+                </strong>
+
+            </div>
+
+
+            <div class="dashboard-item">
+
+                <small>LOCATION</small>
+
+                <strong id="incidentLocation">
+                    📍 Waiting...
+                </strong>
+
+            </div>
+
+
+            <div class="dashboard-item">
+
+                <small>REPORT STATUS</small>
+
+                <strong id="incidentReportStatus">
+                    No report
+                </strong>
+
+            </div>
+
+
+            <div class="dashboard-item">
+
+                <small>RESPONDERS</small>
+
+                <strong id="responderStatus">
+                    👥 Standby
+                </strong>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- WITNESS REPORT -->
+
+    <section class="card witness-card">
+
+        <h2>👥 Witness Emergency Reporting</h2>
+
+        <p>
+            If you see someone in trouble, report the emergency
+            with one tap.
+        </p>
+
+        <button
+            class="witness-button"
+            onclick="witnessReport()">
+
+            🚨 REPORT EMERGENCY
+
+        </button>
+
+        <div id="witnessResult"></div>
+
+    </section>
+
+
+    <footer>
+
+        <p>
+            SafeLink AI — Detect. Verify. Connect.
+        </p>
+
+        <p>
+            HackDay 1.0 • Tech For A Better Tomorrow
+        </p>
+
+    </footer>
+
+</div>
+
+
+<script src="{{ static/script.js }}"></script>
+</body> </html>

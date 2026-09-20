@@ -154,20 +154,47 @@ sendToAI(
 SEND TO FLASK
 ========================= */
 
-function sendToAI(
-impact,
-rotation,
-movement,
-suddenStop
-) {
+function sendToAI(impact, rotation, movement, suddenStop) {
+    var score = 0;
 
-fetch("/analyze", {
+    if (impact >= 8) {
+        score += 40;
+    } else if (impact >= 5) {
+        score += 20;
+    }
 
-    method: "POST",
+    if (rotation >= 7) {
+        score += 25;
+    } else if (rotation >= 4) {
+        score += 10;
+    }
 
-    headers: {
-        "Content-Type": "application/json"
-    },
+    if (suddenStop) {
+        score += 25;
+    }
+
+    if (movement <= 2) {
+        score += 20;
+    }
+
+    score = Math.min(score, 100);
+
+    var risk;
+
+    if (score >= 70) {
+        risk = "HIGH";
+    } else if (score >= 40) {
+        risk = "MEDIUM";
+    } else {
+        risk = "LOW";
+    }
+
+    showAIResult({
+        risk_score: score,
+        risk: risk,
+        possible_emergency: risk === "HIGH"
+    });
+}
 
     body: JSON.stringify({
 
