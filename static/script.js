@@ -153,8 +153,72 @@ sendToAI(
 /* =========================
 SEND TO FLASK
 ========================= */
-
 function sendToAI(impact, rotation, movement, suddenStop) {
+    // Try the Flask backend first.
+    fetch("/analyze", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            impact: impact,
+            rotation: rotation,
+            movement: movement,
+            sudden_stop: suddenStop
+        })
+    })
+    .then(function (response) {
+        if (!response.ok) {
+            throw new Error("Backend unavailable");
+        }
+        return response.json();
+    })
+    .then(function (data) {
+        showAIResult(data);
+    })
+    .catch(function () {
+        // Netlify fallback: perform the same risk analysis in JavaScript.
+        var score = 0;
+
+        if (impact >= 8) {
+            score += 40;
+        } else if (impact >= 5) {
+            score += 20;
+        }
+
+        if (rotation >= 7) {
+            score += 25;
+        } else if (rotation >= 4) {
+            score += 10;
+        }
+
+        if (suddenStop) {
+            score += 25;
+        }
+
+        if (movement <= 2) {
+            score += 20;
+        }
+
+        score = Math.min(score, 100);
+
+        var risk;
+
+        if (score >= 70) {
+            risk = "HIGH";
+        } else if (score >= 40) {
+            risk = "MEDIUM";
+        } else {
+            risk = "LOW";
+        }
+
+        showAIResult({
+            risk_score: score,
+            risk: risk,
+            possible_emergency: risk === "HIGH"
+        });
+    });
+} {
     var score = 0;
 
     if (impact >= 8) {
@@ -979,3 +1043,26 @@ setTimeout(function () {
 }, 1000);
 
 }
+document.addEventListener("DOMContentLoaded", function () {
+    var impact = document.getElementById("impact");
+    var rotation = document.getElementById("rotation");
+    var movement = document.getElementById("movement");
+
+    if (impact) {
+        impact.addEventListener("input", function () {
+            document.getElementById("impactValue").innerText = impact.value;
+        });
+    }
+
+    if (rotation) {
+        rotation.addEventListener("input", function () {
+            document.getElementById("rotationValue").innerText = rotation.value;
+        });
+    }
+
+    if (movement) {
+        movement.addEventListener("input", function () {
+            document.getElementById("movementValue").innerText = movement.value;
+        });
+    }
+});
